@@ -1,5 +1,9 @@
 # README
 
+## Prereq
+
+* On Mac, please install clang by `brew install llvm`. clang comes with Xcode fails to build it.
+
 ## Build
 
 ```sh
