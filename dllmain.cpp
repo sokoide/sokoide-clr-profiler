@@ -25,7 +25,10 @@ extern "C" HRESULT STDMETHODCALLTYPE DllGetClassObject(REFCLSID rclsid,
                                                        LPVOID* ppv) {
     // {DB03B7FB-2425-4CBF-A375-D9A67A66C370}
     const GUID CLSID_CorProfiler = {
-        0xDB03B7FB, 0x2425, 0x4CBF, {0xD9, 0xA6, 0x7A, 0x66, 0xC3, 0x70}};
+        0xDB03B7FB,
+        0x2425,
+        0x4CBF,
+        {0xA3, 0x75, 0xD9, 0xA6, 0x7A, 0x66, 0xC3, 0x70}};
 
     if (ppv == nullptr || rclsid != CLSID_CorProfiler) {
         return E_FAIL;

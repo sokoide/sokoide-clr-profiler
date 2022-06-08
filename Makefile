@@ -13,20 +13,31 @@ OBJS = $(SRCS:.cpp=.o)
 INCLUDES = -I$(DOTNETRUNTIME)/src/coreclr/pal/inc -I$(DOTNETRUNTIME)/src/coreclr/pal/inc/rt -I$(DOTNETRUNTIME)/src/coreclr/inc -I$(DOTNETRUNTIME)/src/coreclr/pal/prebuilt/inc
 CXX = clang++
 CXXFLAGS = -Wno-invalid-noreturn -fPIC -fms-extensions -DBIT64 -DPAL_STDCPP_COMPAT -DPLATFORM_UNIX -Wall -g -O3 -I. $(INCLUDES)
-LDFLAGS = -shared -undefined suppress -flat_namespace
+
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S),Linux)
+	# Linux
+	LDFLAGS = -shared --no-undefined
+	DIAGCMD = reqadelf -d
+endif
+ifeq ($(UNAME_S),Darwin)
+	# MacOS
+	LDFLAGS = -shared -undefined error -flat_namespace
+	DIAGCMD = objdump -p
+endif
 
 default: $(TARGET)
 
 $(TARGET): $(OBJS)
-	$(CXX) $(LDFLAGS) $(CXXFLAGS) $< -o $@
+	$(CXX) $(LDFLAGS) $(CXXFLAGS) $^ -o $@
 
 %.o : %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 
-# diag: $(TARGET)
-# 	readelf -d $(OUTDIR)/$(TARGET)
-# 	objdump -p $(OUTDIR)/$(TARGET)
+diag: $(TARGET)
+	readelf -d $(TARGET)
+	objdump -p $(TARGET)
 
 clean:
 	rm -rf $(TARGET) $(OBJS)

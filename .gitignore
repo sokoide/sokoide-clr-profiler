@@ -1,0 +1,4 @@
+.vscode/*
+tags
+*.o
+*.so

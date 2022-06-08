@@ -8,6 +8,52 @@
 #include "profiler_pal.h"
 #include <string>
 
+const IID IID_ICorProfilerInfo8 = {
+    0xC5AC80A6,
+    0x782E,
+    0x4716,
+    {0x80, 0x44, 0x39, 0x59, 0x8C, 0x60, 0xCF, 0xBF}};
+const IID IID_ICorProfilerCallback = {
+    0x176FBED1,
+    0xA55C,
+    0x4796,
+    {0x98, 0xCA, 0xA9, 0xDA, 0x0E, 0xF8, 0x83, 0xE7}};
+const IID IID_ICorProfilerCallback2 = {
+    0x8A8CC829,
+    0xCCF2,
+    0x49fe,
+    {0xBB, 0xAE, 0x0F, 0x02, 0x22, 0x28, 0x07, 0x1A}};
+const IID IID_ICorProfilerCallback3 = {
+    0x4FD2ED52,
+    0x7731,
+    0x4b8d,
+    {0x94, 0x69, 0x03, 0xD2, 0xCC, 0x30, 0x86, 0xC5}};
+const IID IID_ICorProfilerCallback4 = {
+    0x7B63B2E3,
+    0x107D,
+    0x4d48,
+    {0xB2, 0xF6, 0xF6, 0x1E, 0x22, 0x94, 0x70, 0xD2}};
+const IID IID_ICorProfilerCallback5 = {
+    0x8DFBA405,
+    0x8C9F,
+    0x45F8,
+    {0xBF, 0xFA, 0x83, 0xB1, 0x4C, 0xEF, 0x78, 0xB5}};
+const IID IID_ICorProfilerCallback6 = {
+    0xFC13DF4B,
+    0x4448,
+    0x4F4F,
+    {0x95, 0x0C, 0xBA, 0x8D, 0x19, 0xD0, 0x0C, 0x36}};
+const IID IID_ICorProfilerCallback7 = {
+    0xF76A2DBA,
+    0x1D52,
+    0x4539,
+    {0x86, 0x6C, 0x2A, 0xA5, 0x18, 0xF9, 0xEF, 0xC3}};
+const IID IID_ICorProfilerCallback8 = {
+    0x5BED9B15,
+    0xC079,
+    0x4D47,
+    {0xBF, 0xE2, 0x21, 0x5A, 0x14, 0x0C, 0x07, 0xE0}};
+
 PROFILER_STUB EnterStub(FunctionIDOrClientID functionId,
                         COR_PRF_ELT_INFO eltInfo) {
     printf("\r\nEnter %" UINT_PTR_FORMAT "", (UINT64)functionId.functionID);
@@ -32,6 +78,8 @@ CorProfiler::~CorProfiler() {
 
 HRESULT STDMETHODCALLTYPE
 CorProfiler::Initialize(IUnknown* pICorProfilerInfoUnk) {
+    printf("CorProfiler::Initialize is called\n");
+
     HRESULT queryInterfaceResult = pICorProfilerInfoUnk->QueryInterface(
         __uuidof(ICorProfilerInfo8),
         reinterpret_cast<void**>(&this->corProfilerInfo));
@@ -64,6 +112,7 @@ CorProfiler::Initialize(IUnknown* pICorProfilerInfoUnk) {
 }
 
 HRESULT STDMETHODCALLTYPE CorProfiler::Shutdown() {
+    printf("CorProfiler::Shutdown is called\n");
     if (this->corProfilerInfo != nullptr) {
         this->corProfilerInfo->Release();
         this->corProfilerInfo = nullptr;
