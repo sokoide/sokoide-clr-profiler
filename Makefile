@@ -15,7 +15,7 @@ CXX = clang++
 CXXFLAGS = -Wno-invalid-noreturn -fPIC -fms-extensions -DBIT64 -DPAL_STDCPP_COMPAT -DPLATFORM_UNIX -Wall -g -O3 -I. $(INCLUDES)
 
 UNAME_S := $(shell uname -s)
-UNAME_P := $(shell uname -p)
+UNAME_M := $(shell uname -m)
 
 ifeq ($(UNAME_S),Linux)
 	# Linux
@@ -28,10 +28,14 @@ ifeq ($(UNAME_S),Darwin)
 	DIAGCMD = objdump -p
 endif
 
-ifeq ($(UNAME_P),arm)
+ifeq ($(UNAME_M),arm64)
+	CXXFLAGS += -DENTER_LEAVE_SUPPORTED
+	OBJS += asm.o
+	ASMSRC = asm/aarch64/asm.s
+	ASMFLAGS =
 endif
 
-ifeq ($(UNAME_P),x86_64)
+ifeq ($(UNAME_M),x86_64)
 	CXXFLAGS += -DENTER_LEAVE_SUPPORTED
 	OBJS += asm.o
 	ASMSRC = asm/amd64/asm.s

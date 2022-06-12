@@ -56,15 +56,15 @@ const IID IID_ICorProfilerCallback8 = {
 
 PROFILER_STUB EnterStub(FunctionIDOrClientID functionId,
                         COR_PRF_ELT_INFO eltInfo) {
-    printf("\r\nEnter %" UINT_PTR_FORMAT "", (UINT64)functionId.functionID);
+    printf("Enter %" UINT_PTR_FORMAT "\n", (UINT64)functionId.functionID);
 }
 
 PROFILER_STUB LeaveStub(FunctionID functionId, COR_PRF_ELT_INFO eltInfo) {
-    printf("\r\nLeave %" UINT_PTR_FORMAT "", (UINT64)functionId);
+    printf("Leave %" UINT_PTR_FORMAT "\n", (UINT64)functionId);
 }
 
 PROFILER_STUB TailcallStub(FunctionID functionId, COR_PRF_ELT_INFO eltInfo) {
-    printf("\r\nTailcall %" UINT_PTR_FORMAT "", (UINT64)functionId);
+    printf("Tailcall %" UINT_PTR_FORMAT "\n", (UINT64)functionId);
 }
 
 EXTERN_C void EnterNaked(FunctionIDOrClientID functionIDOrClientID,
