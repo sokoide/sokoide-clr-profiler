@@ -1,8 +1,11 @@
 .text
 
+.p2align    2
+
 .global _EnterNaked
 .global _LeaveNaked
 .global _TailcallNaked
+
 
 _EnterNaked:
 	stp     x29, x30, [sp, #-16]! // pre-index
