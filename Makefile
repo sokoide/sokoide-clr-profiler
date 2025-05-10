@@ -1,6 +1,6 @@
 TARGET = sokoide-profiler.so
-# git clone https://github.com/dotnet/runtime here
-DOTNETRUNTIME = ${HOME}/repo/oss/dotnet/runtime
+DOTNETRUNTIME = ./runtime
+DOTNETCOMMIT = v8.0.11
 
 COMMONFILES =
 SRCS = ClassFactory.cpp \
@@ -45,6 +45,9 @@ endif
 default: $(TARGET)
 
 $(TARGET): $(OBJS)
+	echo TARGET...
+	git submodule update --init --recursive
+	cd $(DOTNETRUNTIME) && git checkout $(DOTNETCOMMIT)
 	$(CXX) $(LDFLAGS) $(CXXFLAGS) $^ -o $@
 
 %.o : %.cpp

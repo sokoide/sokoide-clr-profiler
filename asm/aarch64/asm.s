@@ -1,6 +1,6 @@
 .text
 
-.p2align    2
+; .p2align    2
 
 .global _EnterNaked
 .global _LeaveNaked
